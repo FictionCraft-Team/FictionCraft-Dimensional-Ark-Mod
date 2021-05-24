@@ -7,7 +7,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import wintersteve25.dautils.DAUtils;
-import wintersteve25.dautils.common.item.DAItems;
+import wintersteve25.dautils.common.blocks.DABlockObjectHolders;
+import wintersteve25.dautils.common.item.DAItemObjectHolders;
 import wintersteve25.dautils.common.proxy.CommonProxy;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
@@ -25,6 +26,6 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public static void modelRegistration(ModelRegistryEvent event) {
         DAUtils.getLogger().info("Registering Models");
-        DAItems.initializeModel();
+        DABlockObjectHolders.initializeModels();
     }
 }

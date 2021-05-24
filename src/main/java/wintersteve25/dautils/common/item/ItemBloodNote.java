@@ -16,9 +16,9 @@ import wintersteve25.dautils.common.proxy.GuiProxy;
 
 public class ItemBloodNote extends Item{
 
-    public ItemBloodNote(String regName) {
-        setRegistryName(regName);
-        setTranslationKey(DAUtils.MODID + "." + regName);
+    public ItemBloodNote() {
+        setRegistryName("blood_note");
+        setTranslationKey(DAUtils.MODID + ".blood_note");
         setMaxStackSize(1);
     }
 

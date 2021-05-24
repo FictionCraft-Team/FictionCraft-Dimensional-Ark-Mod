@@ -19,7 +19,7 @@ public abstract class DABaseItemInventoryTile extends TileEntity {
 
     protected ItemStackHandler itemHandler = createHandler();
 
-    public abstract boolean addItem(@Nullable EntityPlayer player, ItemStack heldItem, @Nullable EnumHand hand, boolean isCrafting);
+    public abstract boolean addItem(@Nullable EntityPlayer player, ItemStack heldItem, @Nullable EnumHand hand);
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {

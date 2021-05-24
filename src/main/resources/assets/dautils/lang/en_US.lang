@@ -2,3 +2,10 @@
 
 #item
 item.dautils.blood_note.name=Note With Blood
+item.dautils.hammer.name=Forge Hammer
+
+#blocks
+tile.dautils.forge_anvil.name=Forge Anvil
+
+#itemGroups
+itemGroup.DAUtils=FictionCraft: Dimensional-ARK

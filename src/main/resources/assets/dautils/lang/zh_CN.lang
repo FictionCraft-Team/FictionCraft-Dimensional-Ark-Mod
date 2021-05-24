@@ -2,3 +2,10 @@
 
 #item
 item.dautils.blood_note.name=沾血的笔迹
+item.dautils.hammer.name=锻造锤
+
+#blocks
+tile.dautils.forge_anvil.name=锻造砧
+
+#itemGroups
+itemGroup.DAUtils=合虚为实：次元方舟

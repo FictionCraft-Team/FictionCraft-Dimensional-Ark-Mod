@@ -3,7 +3,7 @@ package wintersteve25.dautils;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.LogManager;
-import wintersteve25.dautils.common.item.DAItems;
+import wintersteve25.dautils.common.item.DAItemObjectHolders;
 import wintersteve25.dautils.common.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -36,7 +36,7 @@ public class DAUtils {
     public static CreativeTabs DAUtilsTab = new CreativeTabs("DAUtils") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(DAItems.bloodNote);
+            return new ItemStack(DAItemObjectHolders.bloodNote);
         }
     };
 

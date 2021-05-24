@@ -49,8 +49,8 @@ public class InvHelper {
         }
     }
 
-    public static void withdrawFromInventory(DABaseItemInventoryTile inv, EntityPlayer player) {
-        for(int i = 1 - 1; i >= 0; i--) {
+    public static void withdrawFromInventory(DABaseItemInventoryTile inv, EntityPlayer player, int inventorySize) {
+        for(int i = 0; i < inventorySize; i++) {
             ItemStack stackAt = inv.getItemHandler().getStackInSlot(i);
             if(!stackAt.isEmpty()) {
                 ItemStack copy = stackAt.copy();
