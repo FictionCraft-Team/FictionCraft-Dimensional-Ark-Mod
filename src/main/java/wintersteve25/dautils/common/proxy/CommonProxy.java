@@ -27,7 +27,6 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent e) {
         NetworkRegistry.INSTANCE.registerGuiHandler(DAUtils.instance, new GuiProxy());
-        ForgeAnvilRecipes.getRecipeList();
     }
 
     public void postInit(FMLPostInitializationEvent e) {

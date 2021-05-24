@@ -35,10 +35,10 @@ public class InvHelper {
         return ret;
     }
 
-    public static void dropInventory(DABaseItemInventoryTile inv, World world, IBlockState state, BlockPos pos) {
+    public static void dropInventory(DABaseItemInventoryTile inv, World world, IBlockState state, BlockPos pos, int inventorySize) {
         if(inv != null) {
-            for(int j1 = 0; j1 < 1; ++j1) {
-                ItemStack itemstack = inv.getItemHandler().getStackInSlot(j1);
+            for(int i = 0; i < inventorySize; i++) {
+                ItemStack itemstack = inv.getItemHandler().getStackInSlot(i);
 
                 if(!itemstack.isEmpty()) {
                     net.minecraft.inventory.InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemstack);

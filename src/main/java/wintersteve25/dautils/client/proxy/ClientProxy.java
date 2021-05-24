@@ -8,7 +8,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.blocks.DABlockObjectHolders;
-import wintersteve25.dautils.common.item.DAItemObjectHolders;
 import wintersteve25.dautils.common.proxy.CommonProxy;
 
 @Mod.EventBusSubscriber(Side.CLIENT)

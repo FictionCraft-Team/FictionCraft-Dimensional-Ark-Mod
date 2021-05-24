@@ -14,6 +14,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
+import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.blocks.machines.DABaseItemInventoryTile;
 import wintersteve25.dautils.common.crafting.ForgeAnvilRecipe;
 
@@ -34,30 +35,38 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
             ItemStack itemStack4 = itemHandler.getStackInSlot(3);
             ForgeAnvilRecipe recipe = ForgeAnvilRecipe.getRecipe(itemStack1, itemStack2, itemStack3, itemStack4);
             if (recipe != null) {
-                if(remainingHammer > 0) {
-                    if (remainingHammer <= 0) {
+                if (remainingHammer > 0) {
+                    DAUtils.logger.info(remainingHammer);
+                    isCrafting = true;
+                    if (itemStack1.isEmpty() || itemStack2.isEmpty() || itemStack3.isEmpty() || itemStack4.isEmpty()) {
+                        remainingHammer = 0;
+                        totalHammer = 0;
+                        isCrafting = false;
+                        markDirty();
+                    }
+                    if (remainingHammer <= 1) {
+                        DAUtils.logger.info("craft");
                         for (int i = 0; i < getInvSize(); i++) {
                             itemHandler.extractItem(i, 1, false);
-                            spawnOutput(world, pos.getX(), pos.getY() + 0.1, pos.getZ(), recipe.getItemOutput());
-                            isCrafting = false;
-                            remainingHammer = 0;
-                            totalHammer = 0;
-                            markDirty();
                         }
+                        spawnOutput(world, pos.getX(), pos.getY() + 1, pos.getZ(), recipe.getItemOutput());
+                        isCrafting = false;
+                        remainingHammer = 0;
+                        totalHammer = 0;
+                        markDirty();
+                        return;
                     }
                 } else {
                     totalHammer = recipe.getHammerAmounts();
                     remainingHammer = totalHammer;
                     markDirty();
                 }
-            } else {
-                isCrafting = false;
             }
         }
     }
 
-    public void hammerOnce() {
-        if (!isCrafting || remainingHammer <= 0) {
+    public void hammerOnce(ItemStack hammerItem, EntityPlayer player) {
+        if (remainingHammer <= 0) {
             return;
         }
 
@@ -69,8 +78,9 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
                 ItemStack itemStack4 = itemHandler.getStackInSlot(3);
                 ForgeAnvilRecipe recipe = ForgeAnvilRecipe.getRecipe(itemStack1, itemStack2, itemStack3, itemStack4);
                 if (recipe != null) {
-                    if (remainingHammer > 0) {
-                        remainingHammer-=1;
+                    if (remainingHammer >= 0) {
+                        hammerItem.damageItem(1, player);
+                        remainingHammer--;
                         this.world.playSound((EntityPlayer)null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
                     }
                 }
@@ -91,9 +101,6 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
     @Override
     public boolean addItem(@Nullable EntityPlayer player, ItemStack heldItem, @Nullable EnumHand hand) {
         for (int i = 0; i < getInvSize(); i++) {
-            if (isCrafting) {
-                return false;
-            }
             if (itemHandler.getStackInSlot(i).isEmpty()) {
                 ItemStack itemAdd = heldItem.copy();
                 itemHandler.insertItem(i, itemAdd, false);
@@ -101,16 +108,10 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
                     heldItem.shrink(heldItem.getCount());
                 }
                 markDirty();
+                break;
             }
         }
         return true;
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setTag("items", itemHandler.serializeNBT());
-
-        return compound;
     }
 
     @Override
@@ -119,13 +120,35 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
         if (compound.hasKey("items")) {
             itemHandler.deserializeNBT(compound.getCompoundTag("items"));
         }
+
+        isCrafting = compound.getBoolean("isCrafting");
+
+        remainingHammer = compound.getInteger("remainingHammers");
+        totalHammer = compound.getInteger("totalHammers");
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setTag("items", itemHandler.serializeNBT());
+
+        compound.setBoolean("isCrafting", isCrafting);
+
+        compound.setInteger("remainingHammers", remainingHammer);
+        compound.setInteger("totalHammers", totalHammer);
+
+        return compound;
     }
 
     @Override
     public NBTTagCompound getUpdateTag() {
         NBTTagCompound nbtTag = super.getUpdateTag();
 
-        nbtTag.setTag("itemsInSlot", itemHandler.serializeNBT());
+        nbtTag.setTag("itemsInAnvil", itemHandler.serializeNBT());
+
+        nbtTag.setInteger("hammersLeft", remainingHammer);
+        nbtTag.setInteger("hammersTotal", totalHammer);
+
         return nbtTag;
     }
 
@@ -137,7 +160,12 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        itemHandler.deserializeNBT(packet.getNbtCompound().getCompoundTag("itemsInSlot"));
+        if (packet.getNbtCompound().hasKey("itemsInAnvil")) {
+            itemHandler.deserializeNBT(packet.getNbtCompound().getCompoundTag("itemsInAnvil"));
+        }
+
+        remainingHammer = packet.getNbtCompound().getInteger("hammersLeft");
+        totalHammer = packet.getNbtCompound().getInteger("hammersTotal");
     }
 
     @Override
@@ -169,6 +197,16 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
         }
         return false;
     }
+
+    public boolean hasEmptySlot() {
+        for (int i = 0; i < getInvSize(); i++) {
+            if (itemHandler.getStackInSlot(i).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public int getRemainingHammer() {
         return remainingHammer;

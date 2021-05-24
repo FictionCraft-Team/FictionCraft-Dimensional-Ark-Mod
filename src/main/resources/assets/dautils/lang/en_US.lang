@@ -9,3 +9,8 @@ tile.dautils.forge_anvil.name=Forge Anvil
 
 #itemGroups
 itemGroup.DAUtils=FictionCraft: Dimensional-ARK
+
+#jei
+jei.dautils.forge_anvil.hammerAmount=Hammer %s Times
+jei.dautils.forge_anvil=Forge Anvil & Hammer
+jei.dautils.forge_anvil_info=The item ingredient order does matter!

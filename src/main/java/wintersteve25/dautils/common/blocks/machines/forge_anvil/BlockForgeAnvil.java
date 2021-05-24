@@ -20,9 +20,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
+import wintersteve25.dautils.client.renderers.ForgeAnvilTESR;
 import wintersteve25.dautils.common.blocks.machines.DABaseDirectionalBlock;
 import wintersteve25.dautils.common.item.DAItems;
 import wintersteve25.dautils.common.lib.InvHelper;
@@ -67,9 +69,9 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
             TileEntity te = worldIn.getTileEntity(pos);
             if (te instanceof TileForgeAnvil) {
                 TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
-                if (itemstack.isItemEqual(new ItemStack(DAItems.Hammer))) {
+                if (itemstack.isItemEqualIgnoreDurability(new ItemStack(DAItems.Hammer))) {
                     if (tileForgeAnvil.getRemainingHammer() > 0) {
-                        tileForgeAnvil.hammerOnce();
+                        tileForgeAnvil.hammerOnce(itemstack, playerIn);
                         return true;
                     }
                 } else if (!itemstack.isEmpty() && !itemstack.isItemEqual(new ItemStack(DAItems.Hammer))) {
@@ -90,7 +92,7 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
             TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
             for (int i = 0; i < 1; i++) {
                 if (!tileForgeAnvil.getItemHandler().getStackInSlot(i).isEmpty()) {
-                    InvHelper.dropInventory(tileForgeAnvil, worldIn, state, pos);
+                    InvHelper.dropInventory(tileForgeAnvil, worldIn, state, pos, tileForgeAnvil.getInvSize());
                 }
             }
         }
@@ -99,7 +101,7 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileForgeAnvil.class, new ForgeAnvilTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileForgeAnvil.class, new ForgeAnvilTESR());
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
