@@ -3,7 +3,7 @@ package wintersteve25.dautils.common.proxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import wintersteve25.dautils.common.item.GuiBloodNote;
+import wintersteve25.dautils.common.item.blood_note.GuiBloodNote;
 
 import javax.annotation.Nullable;
 

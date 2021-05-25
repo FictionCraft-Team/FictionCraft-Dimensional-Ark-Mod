@@ -90,7 +90,7 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof TileForgeAnvil) {
             TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < tileForgeAnvil.getInvSize(); i++) {
                 if (!tileForgeAnvil.getItemHandler().getStackInSlot(i).isEmpty()) {
                     InvHelper.dropInventory(tileForgeAnvil, worldIn, state, pos, tileForgeAnvil.getInvSize());
                 }

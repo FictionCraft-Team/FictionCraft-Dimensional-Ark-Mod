@@ -1,4 +1,4 @@
-package wintersteve25.dautils.common.item;
+package wintersteve25.dautils.common.item.blood_note;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;

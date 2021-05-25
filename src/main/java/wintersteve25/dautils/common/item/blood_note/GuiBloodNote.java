@@ -1,4 +1,4 @@
-package wintersteve25.dautils.common.item;
+package wintersteve25.dautils.common.item.blood_note;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;

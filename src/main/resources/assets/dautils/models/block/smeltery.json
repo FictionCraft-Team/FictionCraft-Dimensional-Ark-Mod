@@ -1,10 +1,8 @@
 {
 	"credit": "PlatinumG17",
-	"parent": "blast_furnace",
-	"texture_size": [64, 64],
 	"textures": {
-		"5": "blocks/smeltery",
-		"particle": "blocks/smeltery"
+		"5": "dautils:blocks/smeltery",
+		"particle": "dautils:blocks/smeltery"
 	},
 	"elements": [
 		{

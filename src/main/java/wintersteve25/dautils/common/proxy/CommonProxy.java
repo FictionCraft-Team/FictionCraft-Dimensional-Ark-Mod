@@ -17,7 +17,8 @@ import wintersteve25.dautils.common.DAConfig;
 import wintersteve25.dautils.common.blocks.DABlockObjectHolders;
 import wintersteve25.dautils.common.blocks.machines.forge_anvil.BlockForgeAnvil;
 import wintersteve25.dautils.common.blocks.machines.forge_anvil.TileForgeAnvil;
-import wintersteve25.dautils.common.crafting.recipes.ForgeAnvilRecipes;
+import wintersteve25.dautils.common.blocks.machines.smeltery.BlockSmeltery;
+import wintersteve25.dautils.common.blocks.machines.smeltery.TileSmeltery;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
@@ -41,6 +42,9 @@ public class CommonProxy {
             if (DAConfig.registerForgeAnvil) {
                 ir.register(new ItemBlock(DABlockObjectHolders.forgeAnvil).setRegistryName(BlockForgeAnvil.FORGE_ANVIL));
             }
+            if (DAConfig.registerSmeltery) {
+                ir.register(new ItemBlock(DABlockObjectHolders.smeltery).setRegistryName(BlockSmeltery.SMELTERY));
+            }
         }
     }
 
@@ -52,6 +56,10 @@ public class CommonProxy {
             if (DAConfig.registerForgeAnvil) {
                 br.register(new BlockForgeAnvil());
                 TileEntity.register(DAUtils.MODID + ":forge_anvil", TileForgeAnvil.class);
+            }
+            if (DAConfig.registerSmeltery) {
+                br.register(new BlockSmeltery());
+                TileEntity.register(DAUtils.MODID + ":smeltery", TileSmeltery.class);
             }
         }
     }

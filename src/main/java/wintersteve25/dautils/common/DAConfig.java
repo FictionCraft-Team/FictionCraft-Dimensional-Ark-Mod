@@ -20,4 +20,16 @@ public class DAConfig {
     @Config.Comment({"Should the forge hammer be registered?"})
     @Config.RequiresMcRestart
     public static boolean registerHammer = true;
+
+    @Config.Comment({"Should the smeltery be registered?"})
+    @Config.RequiresMcRestart
+    public static boolean registerSmeltery = true;
+
+    @Config.Comment({"Should the different tiers of orbs be registered?"})
+    @Config.RequiresMcRestart
+    public static boolean registerOrbs = true;
+
+    @Config.Comment({"Should the heat orbs be used as a flint and steel?"})
+    @Config.RequiresMcRestart
+    public static boolean shouldOrbCreateFire = true;
 }

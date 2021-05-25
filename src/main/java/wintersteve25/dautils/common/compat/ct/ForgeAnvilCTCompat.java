@@ -1,7 +1,8 @@
 package wintersteve25.dautils.common.compat.ct;
 
+import com.blamejared.mtlib.helpers.InputHelper;
 import crafttweaker.annotations.ZenRegister;
-import net.minecraft.item.ItemStack;
+import crafttweaker.api.item.IItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 import wintersteve25.dautils.common.crafting.ForgeAnvilRecipe;
@@ -10,17 +11,17 @@ import wintersteve25.dautils.common.crafting.ForgeAnvilRecipe;
 @ZenClass("mods.dautils.utils.ForgeAnvil")
 public class ForgeAnvilCTCompat {
     @ZenMethod
-    public static void addRecipe(ItemStack itemInput1, ItemStack itemInput2, ItemStack itemInput3, ItemStack itemInput4, ItemStack itemOutput) {
-        ForgeAnvilRecipe.addRecipe(itemInput1, itemInput2, itemInput3, itemInput4, itemOutput);
+    public static void addRecipe(IItemStack itemInput1, IItemStack itemInput2, IItemStack itemInput3, IItemStack itemInput4, IItemStack itemOutput) {
+        ForgeAnvilRecipe.addRecipe(InputHelper.toStack(itemInput1), InputHelper.toStack(itemInput2), InputHelper.toStack(itemInput3), InputHelper.toStack(itemInput4), InputHelper.toStack(itemOutput));
     }
 
     @ZenMethod
-    public static void addRecipe(ItemStack itemInput1, ItemStack itemInput2, ItemStack itemInput3, ItemStack itemInput4, ItemStack itemOutput, int hammerAmount) {
-        ForgeAnvilRecipe.addRecipe(itemInput1, itemInput2, itemInput3, itemInput4, itemOutput, hammerAmount);
+    public static void addRecipe(IItemStack itemInput1, IItemStack itemInput2, IItemStack itemInput3, IItemStack itemInput4, IItemStack itemOutput, int hammerAmount) {
+        ForgeAnvilRecipe.addRecipe(InputHelper.toStack(itemInput1), InputHelper.toStack(itemInput2), InputHelper.toStack(itemInput3), InputHelper.toStack(itemInput4), InputHelper.toStack(itemOutput), hammerAmount);
     }
 
     @ZenMethod
-    public static void removeRecipe(ItemStack itemInput1, ItemStack itemInput2, ItemStack itemInput3, ItemStack itemInput4) {
-        ForgeAnvilRecipe.removeRecipe(itemInput1, itemInput2, itemInput3, itemInput4);
+    public static void removeRecipe(IItemStack itemInput1, IItemStack itemInput2, IItemStack itemInput3, IItemStack itemInput4) {
+        ForgeAnvilRecipe.removeRecipe(InputHelper.toStack(itemInput1), InputHelper.toStack(itemInput2), InputHelper.toStack(itemInput3), InputHelper.toStack(itemInput4));
     }
 }

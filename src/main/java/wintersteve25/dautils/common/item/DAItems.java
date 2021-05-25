@@ -11,6 +11,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.DAConfig;
+import wintersteve25.dautils.common.item.blood_note.ItemBloodNote;
+import wintersteve25.dautils.common.item.heat_orbs.EnumOrbData;
+import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +23,9 @@ public class DAItems {
 
     public static Item Hammer;
     public static Item BloodNote;
+    public static Item OrbsLava;
+    public static Item OrbsBlazing;
+    public static Item OrbsScorching;
 
     static List<Item> itemsDA = new ArrayList<>();
 
@@ -27,6 +33,11 @@ public class DAItems {
         if (DAConfig.weaponForging) {
             if (DAConfig.registerHammer) {
                 Hammer = initItem(new Item().setRegistryName("hammer").setTranslationKey(DAUtils.MODID + ".hammer").setMaxDamage(90));
+            }
+            if (DAConfig.registerOrbs) {
+                OrbsLava = initItem(new ItemHeatOrb(EnumOrbData.LAVA.getTier()).setRegistryName(EnumOrbData.LAVA.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.LAVA.getName()));
+                OrbsBlazing = initItem(new ItemHeatOrb(EnumOrbData.BLAZING.getTier()).setRegistryName(EnumOrbData.BLAZING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.BLAZING.getName()));
+                OrbsScorching = initItem(new ItemHeatOrb(EnumOrbData.SCORCHING.getTier()).setRegistryName(EnumOrbData.SCORCHING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.SCORCHING.getName()));
             }
         }
         if (DAConfig.registerBloodNote) {

@@ -1,8 +1,6 @@
 package wintersteve25.dautils.common.crafting;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
 
 import java.util.ArrayList;
 import java.util.List;

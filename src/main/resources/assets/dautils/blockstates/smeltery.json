@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "dautils:smeltery",
+    "transform": "forge:default-block"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}],
+    "facing": {
+      "north": {"y": 90},
+      "south": {"y": 270},
+      "west": {},
+      "east": {"y": 180},
+      "up": {"z": 180},
+      "down": {"z": 180}
+    }
+  }
+}

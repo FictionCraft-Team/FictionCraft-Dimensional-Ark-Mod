@@ -3,9 +3,13 @@
 #item
 item.dautils.blood_note.name=Note With Blood
 item.dautils.hammer.name=Forge Hammer
+item.dautils.lava_orb.name=Lava Orb
+item.dautils.blazing_orb.name=Blazing Orb
+item.dautils.scorching_orb.name=Scorching Orb
 
 #blocks
 tile.dautils.forge_anvil.name=Forge Anvil
+tile.dautils.smeltery.name=Smeltery
 
 #itemGroups
 itemGroup.DAUtils=FictionCraft: Dimensional-ARK
@@ -13,4 +17,10 @@ itemGroup.DAUtils=FictionCraft: Dimensional-ARK
 #jei
 jei.dautils.forge_anvil.hammerAmount=Hammer %s Times
 jei.dautils.forge_anvil=Forge Anvil & Hammer
-jei.dautils.forge_anvil_info=The item ingredient order does matter!
+
+jei.dautils.smeltery.orbTier=Orb Tier Requirement: %s
+jei.dautils.smeltery.processTime=Process Time: %s
+jei.dautils.smeltery=Smeltery
+
+#tooltips
+tooltip.dautils.heatorbs=Tier %s Heat Orb

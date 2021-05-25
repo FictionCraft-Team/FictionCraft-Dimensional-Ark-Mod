@@ -6,6 +6,12 @@ item.dautils.hammer.name=锻造锤
 
 #blocks
 tile.dautils.forge_anvil.name=锻造砧
+tile.dautils.smeltery.name=熔炼炉
 
 #itemGroups
 itemGroup.DAUtils=合虚为实：次元方舟
+
+#jei
+jei.dautils.forge_anvil.hammerAmount=敲击%s次
+jei.dautils.forge_anvil=锻造砧和锤
+jei.dautils.forge_anvil_info=放进物品的顺序要注意

@@ -23,8 +23,6 @@ public class JEIForgeAnvilWrapper implements IRecipeWrapper {
     private final ItemStack itemOutput;
     private final int hammerAmount;
 
-    private final String info;
-
     public JEIForgeAnvilWrapper(ForgeAnvilRecipe recipe) {
         this.itemInput1 = recipe.getItemInput1().copy();
         this.itemInput2 = recipe.getItemInput2().copy();
@@ -32,8 +30,6 @@ public class JEIForgeAnvilWrapper implements IRecipeWrapper {
         this.itemInput4 = recipe.getItemInput4().copy();
         this.itemOutput = recipe.getItemOutput().copy();
         this.hammerAmount = recipe.getHammerAmounts();
-
-        this.info = I18n.translateToLocal("jei.dautils.forge_anvil_info");
     }
 
     @Override
@@ -63,11 +59,6 @@ public class JEIForgeAnvilWrapper implements IRecipeWrapper {
             tooltip.add(I18n.translateToLocalFormatted("jei.dautils.forge_anvil.hammerAmount", hammerAmount));
         }
         return tooltip;
-    }
-
-    @Override
-    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        minecraft.fontRenderer.drawString(info, 0 /*- minecraft.fontRenderer.getStringWidth(info)/2*/, 55, Color.gray.getRGB());
     }
 
     public ItemStack getItemInput1() {
