@@ -1,5 +1,8 @@
 package wintersteve25.dautils.common.blocks.machines.forge_anvil;
 
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -7,16 +10,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
@@ -26,6 +29,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.client.renderers.ForgeAnvilTESR;
 import wintersteve25.dautils.common.blocks.machines.DABaseDirectionalBlock;
+import wintersteve25.dautils.common.compat.top.TOPInfoProvider;
 import wintersteve25.dautils.common.item.DAItems;
 import wintersteve25.dautils.common.lib.InvHelper;
 import wintersteve25.dautils.common.lib.Utils;
@@ -34,10 +38,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @SuppressWarnings("deprecation")
-public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEntityProvider {
+public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEntityProvider, TOPInfoProvider {
 
     public static final ResourceLocation FORGE_ANVIL = Utils.resourceLocationHelper("forge_anvil");
-    private static final AxisAlignedBB HITBOX = new AxisAlignedBB(0.0625, 0, 0.0625 * 3, 0.0625 * 15, 0.0625 * 13, 0.0625 * 12);
+    private static final AxisAlignedBB HITBOX = new AxisAlignedBB(-0.0625*2, 0, 0.0625 * 3, 0.0625 * 18, 0.0625 * 12, 0.0625 * 13);
 
     public BlockForgeAnvil() {
         super(Material.ANVIL);
@@ -113,5 +117,21 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
     @Override
     public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
         super.addCollisionBoxToList(pos, entityBox, collidingBoxes, HITBOX);
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        TileEntity te = world.getTileEntity(data.getPos());
+        if (te instanceof TileForgeAnvil) {
+            TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
+            if (TileForgeAnvil.isCrafting) {
+                probeInfo.horizontal()
+                        .text(I18n.translateToLocal("top.dautils.forge_anvil.recipeAva"))
+                        .item(tileForgeAnvil.getOutputItem());
+                probeInfo.horizontal()
+                        .item(new ItemStack(DAItems.Hammer))
+                        .progress(tileForgeAnvil.getRemainingHammer()-1 %100, tileForgeAnvil.getTotalHammer()-1, probeInfo.defaultProgressStyle().suffix(I18n.translateToLocal("top.dautils.forge_anvil.hammerLeft")));
+            }
+        }
     }
 }

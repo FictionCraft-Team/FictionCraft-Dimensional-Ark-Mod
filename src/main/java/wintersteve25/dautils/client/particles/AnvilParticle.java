@@ -11,7 +11,7 @@ public class AnvilParticle extends Particle {
 
     public AnvilParticle(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);
-        final float ALPHA_VALUE = 15.0F;
+        final float ALPHA_VALUE = 100F;
         this.particleAlpha = ALPHA_VALUE;
 
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(particle.toString());

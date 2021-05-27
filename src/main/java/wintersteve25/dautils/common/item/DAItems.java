@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.DAConfig;
+import wintersteve25.dautils.common.compat.ct.HeatOrbCTCompat;
 import wintersteve25.dautils.common.item.blood_note.ItemBloodNote;
 import wintersteve25.dautils.common.item.heat_orbs.EnumOrbData;
 import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
@@ -34,9 +35,13 @@ public class DAItems {
             if (DAConfig.registerHammer) {
                 Hammer = initItem(new Item().setRegistryName("hammer").setTranslationKey(DAUtils.MODID + ".hammer").setMaxDamage(90));
             }
-            if (DAConfig.registerOrbs) {
+            if (DAConfig.lavaOrb) {
                 OrbsLava = initItem(new ItemHeatOrb(EnumOrbData.LAVA.getTier()).setRegistryName(EnumOrbData.LAVA.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.LAVA.getName()));
+            }
+            if (DAConfig.blazingOrb) {
                 OrbsBlazing = initItem(new ItemHeatOrb(EnumOrbData.BLAZING.getTier()).setRegistryName(EnumOrbData.BLAZING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.BLAZING.getName()));
+            }
+            if (DAConfig.scorchingOrb) {
                 OrbsScorching = initItem(new ItemHeatOrb(EnumOrbData.SCORCHING.getTier()).setRegistryName(EnumOrbData.SCORCHING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.SCORCHING.getName()));
             }
         }
@@ -62,7 +67,7 @@ public class DAItems {
     private static void initModel(Item i) {
         ModelLoader.setCustomModelResourceLocation(i, 0, new ModelResourceLocation(i.getRegistryName(), "inventory"));
     }
-    private static Item initItem(Item i) {
+    public static Item initItem(Item i) {
         itemsDA.add(i);
         return i;
     }

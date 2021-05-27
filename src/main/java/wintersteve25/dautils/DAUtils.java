@@ -2,7 +2,9 @@ package wintersteve25.dautils;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import org.apache.logging.log4j.LogManager;
+import wintersteve25.dautils.common.compat.top.TOPCap;
 import wintersteve25.dautils.common.item.DAItems;
 import wintersteve25.dautils.common.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
@@ -40,6 +42,12 @@ public class DAUtils {
         }
     };
 
+    public static void registerTOP() {
+        if (Loader.isModLoaded("theoneprobe")) {
+            TOPCap.register();
+        }
+    }
+
     //stages
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -56,4 +64,6 @@ public class DAUtils {
     public void postInit(FMLPostInitializationEvent e) {
         proxy.postInit(e);
     }
+
+
 }

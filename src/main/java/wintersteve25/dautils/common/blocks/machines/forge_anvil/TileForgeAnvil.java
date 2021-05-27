@@ -1,7 +1,6 @@
 package wintersteve25.dautils.common.blocks.machines.forge_anvil;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleCrit;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -24,7 +23,7 @@ import javax.annotation.Nullable;
 
 public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable {
 
-    private static boolean isCrafting = false;
+    public static boolean isCrafting = false;
     private static int totalHammer = 0;
     private static int remainingHammer = 0;
     private boolean playedSound = false;
@@ -44,12 +43,6 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
                 }
                 if (remainingHammer > 0) {
                     isCrafting = true;
-                    if (itemStack1.isEmpty() || itemStack2.isEmpty() || itemStack3.isEmpty() || itemStack4.isEmpty()) {
-                        remainingHammer = 0;
-                        totalHammer = 0;
-                        isCrafting = false;
-                        markDirty();
-                    }
                     if (remainingHammer <= 1) {
                         for (int i = 0; i < getInvSize(); i++) {
                             itemHandler.extractItem(i, 1, false);
@@ -60,13 +53,19 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
                         totalHammer = 0;
                         playedSound = false;
                         markDirty();
-                        return;
                     }
                 } else {
                     totalHammer = recipe.getHammerAmounts();
                     remainingHammer = totalHammer;
                     markDirty();
                 }
+            } else if (itemStack1.isEmpty() || itemStack2.isEmpty() || itemStack3.isEmpty() || itemStack4.isEmpty()) {
+                remainingHammer = 0;
+                totalHammer = 0;
+                isCrafting = false;
+                playedSound = false;
+                markDirty();
+                return;
             }
         }
     }
@@ -76,9 +75,10 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
         for (int i = 0; i < getInvSize(); i++) {
             if (itemHandler.getStackInSlot(i).isEmpty()) {
                 ItemStack itemAdd = heldItem.copy();
+                itemAdd.setCount(1);
                 itemHandler.insertItem(i, itemAdd, false);
                 if(player == null || !player.capabilities.isCreativeMode) {
-                    heldItem.shrink(heldItem.getCount());
+                    heldItem.shrink(1);
                 }
                 markDirty();
                 break;
@@ -88,7 +88,7 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
     }
 
     public void hammerOnce(ItemStack hammerItem, EntityPlayer player) {
-        if (remainingHammer <= 0) {
+        if (remainingHammer < 0) {
             return;
         }
 
@@ -110,6 +110,8 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
                             spawnParticles();
                             spawnParticles();
                             spawnParticles();
+                            spawnParticles();
+                            spawnParticles();
                         }
                     }
                 }
@@ -119,14 +121,14 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
 
     @SideOnly(Side.CLIENT)
     public void spawnParticles() {
-        double xpos = pos.getX() + 0.00005;
+        double xpos = pos.getX() + 0.005;
         double ypos = pos.getY() + 0.000005;
         double zpos = pos.getZ() + 0.00005;
         double velocityX = 0.00000005;
         double velocityY = 0.00000005;
         double velocityZ = 0.00000005;
-        AnvilParticle particleCrit = new AnvilParticle(this.world, xpos, ypos, zpos, velocityX, velocityY, velocityZ);
-        Minecraft.getMinecraft().effectRenderer.addEffect(particleCrit);
+        AnvilParticle anvilParticle = new AnvilParticle(this.world, xpos, ypos, zpos, velocityX, velocityY, velocityZ);
+        Minecraft.getMinecraft().effectRenderer.addEffect(anvilParticle);
     }
 
     public void spawnOutput(World world, double x, double y, double z, ItemStack stack) {
@@ -200,6 +202,20 @@ public class TileForgeAnvil extends DABaseItemInventoryTile implements ITickable
 
     public int getRemainingHammer() {
         return remainingHammer;
+    }
+
+    public int getTotalHammer() {
+        return totalHammer;
+    }
+
+    public ItemStack getOutputItem() {
+        ItemStack itemStack1 = itemHandler.getStackInSlot(0);
+        ItemStack itemStack2 = itemHandler.getStackInSlot(1);
+        ItemStack itemStack3 = itemHandler.getStackInSlot(2);
+        ItemStack itemStack4 = itemHandler.getStackInSlot(3);
+        ForgeAnvilRecipe recipe = ForgeAnvilRecipe.getRecipe(itemStack1, itemStack2, itemStack3, itemStack4);
+
+        return recipe.getItemOutput();
     }
 
     public boolean hasItem() {

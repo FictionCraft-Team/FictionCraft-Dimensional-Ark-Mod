@@ -47,7 +47,7 @@ public class JEIForgeAnvilWrapper implements IRecipeWrapper {
             ingredients.setInput(ItemStack.class, itemInput4);
         }
         if (!itemOutput.isEmpty()) {
-            ingredients.setInput(ItemStack.class, itemOutput);
+            ingredients.setOutput(ItemStack.class, itemOutput);
         }
     }
 
@@ -56,7 +56,7 @@ public class JEIForgeAnvilWrapper implements IRecipeWrapper {
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         List<String> tooltip = Lists.newArrayList();
         if (mouseX >= 74 && mouseY >= 14 && mouseX <= 96 && mouseY <= 37) {
-            tooltip.add(I18n.translateToLocalFormatted("jei.dautils.forge_anvil.hammerAmount", hammerAmount));
+            tooltip.add(I18n.translateToLocalFormatted("jei.dautils.forge_anvil.hammerAmount", hammerAmount-1));
         }
         return tooltip;
     }

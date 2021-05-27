@@ -15,9 +15,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
+import wintersteve25.dautils.client.renderers.SmelteryTESR;
 import wintersteve25.dautils.common.blocks.machines.DABaseDirectionalBlock;
 import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
 import wintersteve25.dautils.common.lib.InvHelper;
@@ -61,6 +65,8 @@ public class BlockSmeltery extends DABaseDirectionalBlock implements ITileEntity
                 TileSmeltery tileSmeltery = (TileSmeltery) te;
                 if (itemstack.getItem() instanceof ItemHeatOrb) {
                     return tileSmeltery.addOrb(playerIn, itemstack, hand);
+                } else if (itemstack.getItem() instanceof ItemFluidContainer) {
+                    return FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, facing);
                 } else if (!itemstack.isEmpty()) {
                     return tileSmeltery.addItem(playerIn, itemstack, hand);
                 } else if (itemstack.isEmpty() && tileSmeltery.hasItem() && playerIn.isSneaking()) {
@@ -104,7 +110,7 @@ public class BlockSmeltery extends DABaseDirectionalBlock implements ITileEntity
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileForgeAnvil.class, new ForgeAnvilTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileSmeltery.class, new SmelteryTESR());
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 }

@@ -22,5 +22,8 @@ jei.dautils.smeltery.orbTier=Orb Tier Requirement: %s
 jei.dautils.smeltery.processTime=Process Time: %s
 jei.dautils.smeltery=Smeltery
 
+#top
+top.dautils.forge_anvil.hammerLeft= Hammers Left
+top.dautils.forge_anvil.recipeAva=Recipe Available, Target Item:
 #tooltips
 tooltip.dautils.heatorbs=Tier %s Heat Orb

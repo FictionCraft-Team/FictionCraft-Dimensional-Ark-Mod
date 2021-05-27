@@ -26,6 +26,6 @@ public class ForgeAnvilRecipes {
     }
 
     public static void init() {
-        recipeTest = ForgeAnvilRecipe.addRecipe(new ItemStack(Items.APPLE), new ItemStack(Items.IRON_INGOT), new ItemStack(Items.IRON_CHESTPLATE), new ItemStack(Items.DIAMOND), new ItemStack(Items.DIAMOND_AXE), 5);
+            recipeTest = ForgeAnvilRecipe.addRecipe(new ItemStack(Items.APPLE), new ItemStack(Items.IRON_INGOT), new ItemStack(Items.IRON_CHESTPLATE), new ItemStack(Items.DIAMOND), new ItemStack(Items.DIAMOND_AXE), 5);
     }
 }

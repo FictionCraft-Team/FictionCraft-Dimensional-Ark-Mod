@@ -19,9 +19,4 @@ public class ForgeAnvilCTCompat {
     public static void addRecipe(IItemStack itemInput1, IItemStack itemInput2, IItemStack itemInput3, IItemStack itemInput4, IItemStack itemOutput, int hammerAmount) {
         ForgeAnvilRecipe.addRecipe(InputHelper.toStack(itemInput1), InputHelper.toStack(itemInput2), InputHelper.toStack(itemInput3), InputHelper.toStack(itemInput4), InputHelper.toStack(itemOutput), hammerAmount);
     }
-
-    @ZenMethod
-    public static void removeRecipe(IItemStack itemInput1, IItemStack itemInput2, IItemStack itemInput3, IItemStack itemInput4) {
-        ForgeAnvilRecipe.removeRecipe(InputHelper.toStack(itemInput1), InputHelper.toStack(itemInput2), InputHelper.toStack(itemInput3), InputHelper.toStack(itemInput4));
-    }
 }

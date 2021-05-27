@@ -32,7 +32,7 @@ public class ForgeAnvilTESR extends TileEntitySpecialRenderer<TileForgeAnvil> {
         GlStateManager.color(1, 1, 1, 1);
         GlStateManager.disableBlend();
         GlStateManager.translate((float) x, (float) y, (float) z);
-        GlStateManager.translate(0.8F, 0.85F, 0.3F);
+        GlStateManager.translate(0.8F, 0.80F, 0.3F);
         GlStateManager.scale(0.6D, 0.6D, 0.6D);
         GlStateManager.rotate(90, 0.5F + random, 0F, 0F);
         Minecraft.getMinecraft().getRenderItem().renderItem(tile.getItemHandler().getStackInSlot(0), ItemCameraTransforms.TransformType.GROUND);

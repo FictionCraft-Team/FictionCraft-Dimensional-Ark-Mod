@@ -9,9 +9,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.functions.Smelt;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,7 +17,6 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
-import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.blocks.machines.DABaseItemInventoryTile;
 import wintersteve25.dautils.common.crafting.SmelteryRecipe;
 import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
@@ -36,6 +32,11 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
             IBlockState state = world.getBlockState(pos);
             world.notifyBlockUpdate(pos, state, state, 3);
             markDirty();
+        }
+
+        @Override
+        public boolean canFill() {
+            return super.canFill();
         }
     };
     private final ItemStackHandler orbHandler = createHandler();
@@ -65,31 +66,34 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
             if (hasOrb) {
                 ItemStack itemStack = itemHandler.getStackInSlot(0);
                 SmelteryRecipe recipe = SmelteryRecipe.getRecipe(itemStack, this.orbTier);
-                DAUtils.logger.info("check recipe");
-                DAUtils.logger.info(orbTier);
                 if (recipe != null) {
-                    DAUtils.logger.info("check progress");
                     if (progress > 0) {
                         isCrafting = true;
                         progress-=baseProcessingSpeed;
 
                         if (itemStack.isEmpty() || !hasOrb || orbTier < recipe.getRequiredOrbTier()) {
-                            DAUtils.logger.info("item removed");
                             resetAllProgress();
                         }
 
-                        DAUtils.logger.info("check again");
                         if (progress <= 0) {
-                            DAUtils.logger.info("craft");
-                            FluidStack outputFluid = recipe.getFluidOutput();
+                            FluidStack outputFluid = recipe.getFluidOutput().copy();
                             outputTank.fill(outputFluid, true);
                             itemHandler.extractItem(0, 1, false);
                             resetAllProgress();
                         }
+
                     } else {
-                        totalProgress = recipe.getProcessTime();
-                        progress = totalProgress;
-                        markDirty();
+                        if (outputTank.getFluid() == null) {
+                            totalProgress = recipe.getProcessTime();
+                            progress = totalProgress;
+                            markDirty();
+                        } else if (outputTank.getFluid().containsFluid(recipe.getFluidOutput())) {
+                            if (outputTank.getFluidAmount() - recipe.getFluidOutput().amount >= 0) {
+                                totalProgress = recipe.getProcessTime();
+                                progress = totalProgress;
+                                markDirty();
+                            }
+                        }
                     }
                 }
             }
@@ -148,6 +152,10 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
         }
     }
 
+    public ItemStackHandler getOrbHandler() {
+        return this.orbHandler;
+    }
+
     public void resetAllProgress() {
         this.isCrafting = false;
         this.progress = 0;
@@ -171,6 +179,10 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
 
     public boolean isThereOrb() {
         return hasOrb;
+    }
+
+    public FluidTank getOutputTank() {
+        return outputTank;
     }
 
     @Override

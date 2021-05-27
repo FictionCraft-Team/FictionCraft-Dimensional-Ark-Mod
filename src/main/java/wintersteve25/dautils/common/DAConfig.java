@@ -25,9 +25,17 @@ public class DAConfig {
     @Config.RequiresMcRestart
     public static boolean registerSmeltery = true;
 
-    @Config.Comment({"Should the different tiers of orbs be registered?"})
+    @Config.Comment({"Should the lava orbs be registered?"})
     @Config.RequiresMcRestart
-    public static boolean registerOrbs = true;
+    public static boolean lavaOrb = true;
+
+    @Config.Comment({"Should the blazing orbs be registered?"})
+    @Config.RequiresMcRestart
+    public static boolean blazingOrb = true;
+
+    @Config.Comment({"Should the scorching orbs be registered?"})
+    @Config.RequiresMcRestart
+    public static boolean scorchingOrb = true;
 
     @Config.Comment({"Should the heat orbs be used as a flint and steel?"})
     @Config.RequiresMcRestart

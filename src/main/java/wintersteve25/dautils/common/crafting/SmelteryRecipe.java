@@ -2,9 +2,7 @@ package wintersteve25.dautils.common.crafting;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.oredict.OreDictionary;
-import wintersteve25.dautils.DAUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ public class SmelteryRecipe extends DASimpleRecipe{
     private int requiredOrbTier;
     private int processTime;
 
-    public static final List<SmelteryRecipe> smelteryRecipes = new ArrayList<SmelteryRecipe>();
+    public static final List<SmelteryRecipe> smelteryRecipes = new ArrayList<>();
 
     public SmelteryRecipe(Object itemInput, FluidStack output, int requiredOrbTier, int processTime) {
         this.output = output;
@@ -33,35 +31,35 @@ public class SmelteryRecipe extends DASimpleRecipe{
             throw new IllegalArgumentException("Invalid item input, must be an ore dictionary or itemstack");
         }
     }
+
+    @SuppressWarnings("unchecked")
     public boolean isRecipeMatch(Object itemInput, int requiredOrbTier) {
-        DAUtils.logger.info("check orb tier");
         if (requiredOrbTier < getRequiredOrbTier()) {
             return false;
         }
-
-        DAUtils.logger.info("is stacks same");
         if (itemInput instanceof ItemStack) {
             ItemStack itemStack = ((ItemStack) itemInput);
-            return areStacksTheSame((ItemStack) (getItemInput()), itemStack, false);
-        } else if (itemInput instanceof String) {
-            List<ItemStack> list = OreDictionary.getOres((String) itemInput);
-            for (ItemStack stack : list) {
-                return areStacksTheSame((ItemStack) (getItemInput()), stack, false);
+            if (getItemInput() instanceof ItemStack) {
+                return areStacksTheSame((ItemStack) (getItemInput()), itemStack, false);
             }
-        }
-        return false;
-    }
-    public boolean isRecipeMatch(Object itemInput) {
-        if (itemInput == null || !itemInput.equals(getItemInput())) {
-            return false;
-        }
-        if (itemInput instanceof ItemStack) {
-            ItemStack itemStack = ((ItemStack) itemInput);
-            return areStacksTheSame((ItemStack) (getItemInput()), itemStack, false);
+            if (getItemInput() instanceof List) {
+                List<ItemStack> stackList = (List<ItemStack>) getItemInput();
+                for (ItemStack stack : stackList) {
+                    return areStacksTheSame(stack, itemStack, false);
+                }
+            }
         } else if (itemInput instanceof String) {
             List<ItemStack> list = OreDictionary.getOres((String) itemInput);
             for (ItemStack stack : list) {
-                return areStacksTheSame((ItemStack) (getItemInput()), stack, false);
+                if (getItemInput() instanceof ItemStack) {
+                    return areStacksTheSame((ItemStack) (getItemInput()), stack, false);
+                }
+                if (getItemInput() instanceof List) {
+                    List<ItemStack> stackList = (List<ItemStack>) getItemInput();
+                    for (ItemStack inputs : stackList) {
+                        return areStacksTheSame(inputs, stack, false);
+                    }
+                }
             }
         }
         return false;
@@ -73,11 +71,6 @@ public class SmelteryRecipe extends DASimpleRecipe{
         return recipe;
     }
 
-    public static void removeRecipe(ItemStack item) {
-        SmelteryRecipe recipeToRemove = getRecipe(item);
-        smelteryRecipes.remove(recipeToRemove);
-    }
-
     public static SmelteryRecipe getRecipe(Object item, int requiredOrbTier) {
         for (SmelteryRecipe recipes : smelteryRecipes) {
             if(recipes.isRecipeMatch(item, requiredOrbTier)) {
@@ -86,16 +79,6 @@ public class SmelteryRecipe extends DASimpleRecipe{
         }
         return null;
     }
-
-    public static SmelteryRecipe getRecipe(Object item) {
-        for (SmelteryRecipe recipes : smelteryRecipes) {
-            if(recipes.isRecipeMatch(item)) {
-                return recipes;
-            }
-        }
-        return null;
-    }
-
 
     public Object getItemInput() {
         return itemInput;

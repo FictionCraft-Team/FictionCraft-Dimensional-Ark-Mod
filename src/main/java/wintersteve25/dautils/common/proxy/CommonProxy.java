@@ -24,6 +24,7 @@ import wintersteve25.dautils.common.blocks.machines.smeltery.TileSmeltery;
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent e) {
+        DAUtils.registerTOP();
     }
 
     public void init(FMLInitializationEvent e) {

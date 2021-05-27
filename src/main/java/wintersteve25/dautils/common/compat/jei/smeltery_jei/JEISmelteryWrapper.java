@@ -35,7 +35,7 @@ public class JEISmelteryWrapper implements IRecipeWrapper {
             ingredients.setInput(ItemStack.class, itemInput);
         }
         if (output.getFluid() != null) {
-            ingredients.setInput(ItemStack.class, output);
+            ingredients.setOutput(FluidStack.class, output);
         }
     }
 
