@@ -11,11 +11,7 @@ import java.util.List;
 public class ForgeAnvilRecipes {
     public static boolean hasInited = false;
 
-
-
-    public static ForgeAnvilRecipe recipeTest;
-
-
+    //public static ForgeAnvilRecipe recipeTest;
 
     public static List<ForgeAnvilRecipe> getRecipeList() {
         if (!hasInited) {
@@ -26,6 +22,6 @@ public class ForgeAnvilRecipes {
     }
 
     public static void init() {
-            recipeTest = ForgeAnvilRecipe.addRecipe(new ItemStack(Items.APPLE), new ItemStack(Items.IRON_INGOT), new ItemStack(Items.IRON_CHESTPLATE), new ItemStack(Items.DIAMOND), new ItemStack(Items.DIAMOND_AXE), 5);
+            //recipeTest = ForgeAnvilRecipe.addRecipe(new ItemStack(Items.APPLE), new ItemStack(Items.IRON_INGOT), new ItemStack(Items.IRON_CHESTPLATE), new ItemStack(Items.DIAMOND), new ItemStack(Items.DIAMOND_AXE), 5);
     }
 }

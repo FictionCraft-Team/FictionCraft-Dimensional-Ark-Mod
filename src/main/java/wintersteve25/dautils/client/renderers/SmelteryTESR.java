@@ -18,7 +18,7 @@ import wintersteve25.dautils.common.lib.Math;
 
 public class SmelteryTESR extends TileEntitySpecialRenderer<TileSmeltery> {
 
-    public static final float TANK_THICKNESS = 0.1f;
+    public static final float TANK_THICKNESS = 0.05f;
 
     @Override
     public void render(TileSmeltery te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
@@ -27,10 +27,8 @@ public class SmelteryTESR extends TileEntitySpecialRenderer<TileSmeltery> {
         GlStateManager.color(1, 1, 1, 1);
         GlStateManager.disableBlend();
         GlStateManager.translate((float) x, (float) y, (float) z);
-
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         renderOutputFluid(te);
-
         GlStateManager.popMatrix();
 
         renderItem(te, x, y, z);
@@ -38,7 +36,7 @@ public class SmelteryTESR extends TileEntitySpecialRenderer<TileSmeltery> {
 
     private void renderItem(TileSmeltery tile, double x, double y, double z) {
         if (tile == null) {
-            return;
+           return;
         }
         Float random = Math.randomInRange(0, 0.2f);
         if(tile.getItemHandler().getStackInSlot(0).isEmpty()) {
@@ -52,24 +50,6 @@ public class SmelteryTESR extends TileEntitySpecialRenderer<TileSmeltery> {
         GlStateManager.translate(0.5F, 1.05F, 0.5F);
         GlStateManager.scale(0.8D, 0.8D, 0.8D);
         GlStateManager.rotate(90, 0.5F + random, 0F, 0F);
-        Minecraft.getMinecraft().getRenderItem().renderItem(tile.getItemHandler().getStackInSlot(0), ItemCameraTransforms.TransformType.GROUND);
-        GlStateManager.popMatrix();
-    }
-
-    private void renderOrb(TileSmeltery tile, double x, double y, double z) {
-        if (tile == null) {
-            return;
-        }
-        if(tile.getOrbHandler().getStackInSlot(0).isEmpty()) {
-            return;
-        }
-
-        GlStateManager.pushMatrix();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.color(1, 1, 1, 1);
-        GlStateManager.disableBlend();
-        GlStateManager.translate(0.5F, 1.05F, 0.5F);
-        GlStateManager.scale(0.8D, 0.8D, 0.8D);
         Minecraft.getMinecraft().getRenderItem().renderItem(tile.getItemHandler().getStackInSlot(0), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.popMatrix();
     }
@@ -89,7 +69,7 @@ public class SmelteryTESR extends TileEntitySpecialRenderer<TileSmeltery> {
             return;
         }
 
-        float scale = (0.625F / tile.getOutputTank().getCapacity()) * tile.getOutputTank().getFluidAmount();;
+        float scale = (0.3F / tile.getOutputTank().getCapacity()) * tile.getOutputTank().getFluidAmount();;
 
         if (scale > 0.0f) {
             Tessellator tessellator = Tessellator.getInstance();

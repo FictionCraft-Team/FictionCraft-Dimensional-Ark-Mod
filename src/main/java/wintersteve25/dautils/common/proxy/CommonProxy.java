@@ -17,6 +17,8 @@ import wintersteve25.dautils.common.DAConfig;
 import wintersteve25.dautils.common.blocks.DABlockObjectHolders;
 import wintersteve25.dautils.common.blocks.machines.forge_anvil.BlockForgeAnvil;
 import wintersteve25.dautils.common.blocks.machines.forge_anvil.TileForgeAnvil;
+import wintersteve25.dautils.common.blocks.machines.sacrificer.BlockSacrificer;
+import wintersteve25.dautils.common.blocks.machines.sacrificer.TileSacrificer;
 import wintersteve25.dautils.common.blocks.machines.smeltery.BlockSmeltery;
 import wintersteve25.dautils.common.blocks.machines.smeltery.TileSmeltery;
 
@@ -47,6 +49,9 @@ public class CommonProxy {
                 ir.register(new ItemBlock(DABlockObjectHolders.smeltery).setRegistryName(BlockSmeltery.SMELTERY));
             }
         }
+        if (DAConfig.registerSacrificer) {
+            ir.register(new ItemBlock(DABlockObjectHolders.sacrificer).setRegistryName(BlockSacrificer.SACRIFICER));
+        }
     }
 
     @SubscribeEvent
@@ -62,6 +67,10 @@ public class CommonProxy {
                 br.register(new BlockSmeltery());
                 TileEntity.register(DAUtils.MODID + ":smeltery", TileSmeltery.class);
             }
+        }
+        if (DAConfig.registerSacrificer) {
+            br.register(new BlockSacrificer());
+            TileEntity.register(DAUtils.MODID + ":sacrificer", TileSacrificer.class);
         }
     }
 }

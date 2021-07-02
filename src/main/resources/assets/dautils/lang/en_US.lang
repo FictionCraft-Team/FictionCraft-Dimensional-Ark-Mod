@@ -3,6 +3,7 @@
 #item
 item.dautils.blood_note.name=Note With Blood
 item.dautils.hammer.name=Forge Hammer
+item.dautils.sharp_tool.name=Sharpener
 item.dautils.lava_orb.name=Lava Orb
 item.dautils.blazing_orb.name=Blazing Orb
 item.dautils.scorching_orb.name=Scorching Orb
@@ -10,6 +11,7 @@ item.dautils.scorching_orb.name=Scorching Orb
 #blocks
 tile.dautils.forge_anvil.name=Forge Anvil
 tile.dautils.smeltery.name=Smeltery
+tile.dautils.sacrificer.name=Sacrificer
 
 #itemGroups
 itemGroup.DAUtils=FictionCraft: Dimensional-ARK
@@ -18,12 +20,25 @@ itemGroup.DAUtils=FictionCraft: Dimensional-ARK
 jei.dautils.forge_anvil.hammerAmount=Hammer %s Times
 jei.dautils.forge_anvil=Forge Anvil & Hammer
 
+jei.dautils.forge_anvil.sharpenAmount=Sharpen %s Times
+jei.dautils.sharpening=Forge Anvil & Sharpener
+
 jei.dautils.smeltery.orbTier=Orb Tier Requirement: %s
 jei.dautils.smeltery.processTime=Process Time: %s
 jei.dautils.smeltery=Smeltery
 
+jei.dautils.sacrificer=Sacrificer
+jei.dautils.sacrificer.time=Ticks Till Consumed: %s
+jei.dautils.sacrificer.info=Produces: %smb of Blood
+
 #top
 top.dautils.forge_anvil.hammerLeft= Hammers Left
+
+top.dautils.sharpening.recipeAva=Recipe Available, Target Item:
+top.dautils.sharpening.sharpenLeft= Sharpens Left
+
 top.dautils.forge_anvil.recipeAva=Recipe Available, Target Item:
+top.dautils.smeltery.remainingTicks=Ticks Left:
+
 #tooltips
 tooltip.dautils.heatorbs=Tier %s Heat Orb

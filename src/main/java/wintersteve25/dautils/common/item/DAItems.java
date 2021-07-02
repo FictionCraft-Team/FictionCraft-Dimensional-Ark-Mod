@@ -11,11 +11,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import wintersteve25.dautils.DAUtils;
 import wintersteve25.dautils.common.DAConfig;
-import wintersteve25.dautils.common.compat.ct.HeatOrbCTCompat;
 import wintersteve25.dautils.common.item.blood_note.ItemBloodNote;
 import wintersteve25.dautils.common.item.heat_orbs.EnumOrbData;
 import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +23,7 @@ import java.util.List;
 public class DAItems {
 
     public static Item Hammer;
+    public static Item SharpeningTool;
     public static Item BloodNote;
     public static Item OrbsLava;
     public static Item OrbsBlazing;
@@ -33,16 +34,19 @@ public class DAItems {
     static {
         if (DAConfig.weaponForging) {
             if (DAConfig.registerHammer) {
-                Hammer = initItem(new Item().setRegistryName("hammer").setTranslationKey(DAUtils.MODID + ".hammer").setMaxDamage(90));
+                Hammer = initItem(new Item().setRegistryName("hammer").setTranslationKey(DAUtils.MODID + ".hammer").setMaxDamage(90).setMaxStackSize(1));
+            }
+            if (DAConfig.registerSharpeningTool) {
+                SharpeningTool = initItem(new Item().setRegistryName("sharp_tool").setTranslationKey(DAUtils.MODID + ".sharp_tool").setMaxDamage(90).setMaxStackSize(1));
             }
             if (DAConfig.lavaOrb) {
-                OrbsLava = initItem(new ItemHeatOrb(EnumOrbData.LAVA.getTier()).setRegistryName(EnumOrbData.LAVA.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.LAVA.getName()));
+                OrbsLava = initItem(new ItemHeatOrb(EnumOrbData.LAVA.getTier(), Color.red).setRegistryName(EnumOrbData.LAVA.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.LAVA.getName()));
             }
             if (DAConfig.blazingOrb) {
-                OrbsBlazing = initItem(new ItemHeatOrb(EnumOrbData.BLAZING.getTier()).setRegistryName(EnumOrbData.BLAZING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.BLAZING.getName()));
+                OrbsBlazing = initItem(new ItemHeatOrb(EnumOrbData.BLAZING.getTier(), Color.orange).setRegistryName(EnumOrbData.BLAZING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.BLAZING.getName()));
             }
             if (DAConfig.scorchingOrb) {
-                OrbsScorching = initItem(new ItemHeatOrb(EnumOrbData.SCORCHING.getTier()).setRegistryName(EnumOrbData.SCORCHING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.SCORCHING.getName()));
+                OrbsScorching = initItem(new ItemHeatOrb(EnumOrbData.SCORCHING.getTier(), Color.blue).setRegistryName(EnumOrbData.SCORCHING.getName()).setTranslationKey(DAUtils.MODID + "." + EnumOrbData.SCORCHING.getName()));
             }
         }
         if (DAConfig.registerBloodNote) {

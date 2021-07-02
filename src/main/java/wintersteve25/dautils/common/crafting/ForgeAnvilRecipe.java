@@ -64,6 +64,12 @@ public class ForgeAnvilRecipe extends DASimpleRecipe{
         return recipe;
     }
 
+    public static ForgeAnvilRecipe removeRecipe(ItemStack itemInput1, ItemStack itemInput2, ItemStack itemInput3, ItemStack itemInput4) {
+        ForgeAnvilRecipe recipe = getRecipe(itemInput1, itemInput2, itemInput3, itemInput4);
+        forgeAnvilRecipes.remove(recipe);
+        return recipe;
+    }
+
     public static ForgeAnvilRecipe getRecipe(ItemStack itemInput1, ItemStack itemInput2, ItemStack itemInput3, ItemStack itemInput4) {
         for (ForgeAnvilRecipe recipes : forgeAnvilRecipes) {
             if(recipes.isRecipeMatch(itemInput1, itemInput2, itemInput3, itemInput4, true)) {

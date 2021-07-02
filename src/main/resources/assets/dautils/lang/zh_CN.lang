@@ -3,6 +3,10 @@
 #item
 item.dautils.blood_note.name=沾血的笔迹
 item.dautils.hammer.name=锻造锤
+item.dautils.sharp_tool.name=磨刀器
+item.dautils.lava_orb.name=岩浆宝珠
+item.dautils.blazing_orb.name=炽焰宝珠
+item.dautils.scorching_orb.name=灼热宝珠
 
 #blocks
 tile.dautils.forge_anvil.name=锻造砧
@@ -14,4 +18,14 @@ itemGroup.DAUtils=合虚为实：次元方舟
 #jei
 jei.dautils.forge_anvil.hammerAmount=敲击%s次
 jei.dautils.forge_anvil=锻造砧和锤
-jei.dautils.forge_anvil_info=放进物品的顺序要注意
+jei.dautils.smeltery.orbTier=宝珠等级:%s
+jei.dautils.smeltery.processTime=处理时间:%s
+jei.dautils.smeltery=熔炼炉
+
+#top
+top.dautils.forge_anvil.hammerLeft= 锤
+top.dautils.forge_anvil.recipeAva=配方正确，正在合成:
+top.dautils.smeltery.remainingTicks=进度:
+
+#tooltip
+tooltip.dautils.heatorbs=%s级宝珠

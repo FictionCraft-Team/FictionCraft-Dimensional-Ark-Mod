@@ -1,7 +1,9 @@
 package wintersteve25.dautils.common.blocks.machines.smeltery;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -14,9 +16,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import wintersteve25.dautils.client.particles.OrbParticle;
 import wintersteve25.dautils.common.blocks.machines.DABaseItemInventoryTile;
 import wintersteve25.dautils.common.crafting.SmelteryRecipe;
 import wintersteve25.dautils.common.item.heat_orbs.ItemHeatOrb;
@@ -33,21 +38,20 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
             world.notifyBlockUpdate(pos, state, state, 3);
             markDirty();
         }
-
-        @Override
-        public boolean canFill() {
-            return super.canFill();
-        }
     };
     private final ItemStackHandler orbHandler = createHandler();
 
-    public boolean isCrafting = false;
+
+    public static boolean isCrafting = false;
     private boolean hasOrb = false;
     private int orbTier = -1;
     private int progress = 0;
     private int totalProgress = 0;
 
     private int baseProcessingSpeed = 1;
+
+    public static boolean itemContentRemoved = false;
+    public static boolean orbRemoved = false;
 
     @Override
     public void update() {
@@ -64,9 +68,12 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
                 markDirty();
             }
             if (hasOrb) {
+                orbParticle();
+                orbParticle();
                 ItemStack itemStack = itemHandler.getStackInSlot(0);
                 SmelteryRecipe recipe = SmelteryRecipe.getRecipe(itemStack, this.orbTier);
                 if (recipe != null) {
+                    FluidStack outputFluid = recipe.getFluidOutput().copy();
                     if (progress > 0) {
                         isCrafting = true;
                         progress-=baseProcessingSpeed;
@@ -76,26 +83,31 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
                         }
 
                         if (progress <= 0) {
-                            FluidStack outputFluid = recipe.getFluidOutput().copy();
                             outputTank.fill(outputFluid, true);
                             itemHandler.extractItem(0, 1, false);
                             resetAllProgress();
                         }
 
                     } else {
-                        if (outputTank.getFluid() == null) {
+                        if (outputTank.fill(outputFluid, true) != 0) {
                             totalProgress = recipe.getProcessTime();
                             progress = totalProgress;
                             markDirty();
-                        } else if (outputTank.getFluid().containsFluid(recipe.getFluidOutput())) {
-                            if (outputTank.getFluidAmount() - recipe.getFluidOutput().amount >= 0) {
-                                totalProgress = recipe.getProcessTime();
-                                progress = totalProgress;
-                                markDirty();
-                            }
                         }
                     }
+                } if (itemContentRemoved) {
+                    isCrafting = false;
+                    progress = 0;
+                    totalProgress = 0;
+                    itemContentRemoved = false;
+                    markDirty();
                 }
+            } if (orbRemoved) {
+                isCrafting = false;
+                progress = 0;
+                totalProgress = 0;
+                orbRemoved = false;
+                markDirty();
             }
         }
     }
@@ -114,6 +126,25 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
             }
         }
         return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void orbParticle() {
+        double xpos = pos.getX() + 0.5;
+        double ypos = pos.getY() + 1.5;
+        double zpos = pos.getZ() + 0.5;
+        double velocityX = 0;
+        double velocityY = 0;
+        double velocityZ = 0;
+
+        Item orbItem = orbHandler.getStackInSlot(0).getItem();
+
+        if(orbItem instanceof ItemHeatOrb) {
+            ItemHeatOrb orb = (ItemHeatOrb) orbItem;
+
+            OrbParticle orbParticle = new OrbParticle(this.world, xpos, ypos, zpos, velocityX, velocityY, velocityZ, orb);
+            Minecraft.getMinecraft().effectRenderer.addEffect(orbParticle);
+        }
     }
 
     public boolean addOrb(@Nullable EntityPlayer player, ItemStack heldItem, @Nullable EnumHand hand) {
@@ -183,6 +214,14 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
 
     public FluidTank getOutputTank() {
         return outputTank;
+    }
+
+    public int getRemainingTicks() {
+        return progress;
+    }
+
+    public int getTotalProgress() {
+        return totalProgress;
     }
 
     @Override
@@ -273,7 +312,9 @@ public class TileSmeltery extends DABaseItemInventoryTile implements ITickable {
             return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(itemHandler);
         }
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(outputTank);
+            if (outputTank.getFluid() != null) {
+                return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(outputTank);
+            }
         }
         return super.getCapability(capability, facing);
     }

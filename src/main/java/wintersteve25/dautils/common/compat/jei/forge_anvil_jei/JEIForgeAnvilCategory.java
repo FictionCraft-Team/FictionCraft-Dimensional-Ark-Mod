@@ -59,7 +59,7 @@ public class JEIForgeAnvilCategory implements IRecipeCategory<JEIForgeAnvilWrapp
         guiItemStackGroup.init(3, true, 55, 1);
         guiItemStackGroup.set(3, recipeWrapper.getItemInput4());
 
-        guiItemStackGroup.init(4, true, 107, 18);
+        guiItemStackGroup.init(4, false, 107, 18);
         guiItemStackGroup.set(4, recipeWrapper.getItemOutput());
     }
 }

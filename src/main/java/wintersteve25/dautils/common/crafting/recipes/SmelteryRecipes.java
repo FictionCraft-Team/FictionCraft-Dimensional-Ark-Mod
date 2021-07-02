@@ -11,7 +11,7 @@ import java.util.List;
 public class SmelteryRecipes {
     public static boolean hasInited = false;
 
-    public static SmelteryRecipe recipeTest;
+    //public static SmelteryRecipe recipeTest;
     
     public static List<SmelteryRecipe> getRecipeList() {
         if (!hasInited) {
@@ -22,7 +22,7 @@ public class SmelteryRecipes {
     }
 
     public static void init() {
-        recipeTest = SmelteryRecipe.addRecipe(new ItemStack(Items.IRON_INGOT), new FluidStack(FluidRegistry.WATER, 100), 0, 40);
+        //recipeTest = SmelteryRecipe.addRecipe(new ItemStack(Items.IRON_INGOT), new FluidStack(FluidRegistry.WATER, 100), 0, 40);
     }
 
 }

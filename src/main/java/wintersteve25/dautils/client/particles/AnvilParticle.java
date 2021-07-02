@@ -7,7 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class AnvilParticle extends Particle {
-    private final ResourceLocation particle = new ResourceLocation("dautils:entity/anvil_particles");
+    public static final ResourceLocation particle = new ResourceLocation("dautils:entity/anvil_particles");
 
     public AnvilParticle(World world, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
         super(world, x, y, z, velocityX, velocityY, velocityZ);

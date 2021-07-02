@@ -15,19 +15,20 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.StringUtils;
 import wintersteve25.dautils.common.DAConfig;
+import wintersteve25.dautils.common.item.DABaseItem;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
+import java.awt.*;
 import java.util.List;
-import java.util.regex.Pattern;
 
-public class ItemHeatOrb extends Item {
+public class ItemHeatOrb extends DABaseItem {
     private final int orbTier;
+    private final Color color;
 
-    public ItemHeatOrb(int orbTier) {
+    public ItemHeatOrb(int orbTier, Color color) {
         this.orbTier = orbTier;
+        this.color = color;
 
         setMaxStackSize(1);
     }
@@ -66,15 +67,11 @@ public class ItemHeatOrb extends Item {
         addInformationLocalized(tooltip, "tooltip.dautils.heatorbs", getOrbTier());
     }
 
-    private static final Pattern COMPILE = Pattern.compile("@", Pattern.LITERAL);
-
-    private void addInformationLocalized(List<String> tooltip, String key, Object... parameters) {
-        String translated = I18n.format(key, parameters);
-        translated = COMPILE.matcher(translated).replaceAll("\u00a7");
-        Collections.addAll(tooltip, StringUtils.split(translated, "\n"));
-    }
-
     public int getOrbTier() {
         return orbTier;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

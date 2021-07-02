@@ -76,17 +76,49 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
                 if (itemstack.isItemEqualIgnoreDurability(new ItemStack(DAItems.Hammer))) {
                     if (tileForgeAnvil.getRemainingHammer() > 0) {
                         tileForgeAnvil.hammerOnce(itemstack, playerIn);
-                        return true;
+                    } else {
+                        if (!tileForgeAnvil.isCrafting) {
+                            tileForgeAnvil.add(playerIn, itemstack, hand, tileForgeAnvil.getHammerHandler());
+                        }
                     }
+                    return true;
+                } else if (itemstack.isItemEqualIgnoreDurability(new ItemStack(DAItems.SharpeningTool))) {
+                    if (tileForgeAnvil.getRemainingSharpen() > 0) {
+                        tileForgeAnvil.sharpenOnce(itemstack, playerIn);
+                    }
+                    if (!tileForgeAnvil.isCraftingSharpen) {
+                        tileForgeAnvil.add(playerIn, itemstack, hand, tileForgeAnvil.getSharpenerHandler());
+                    }
+                    return true;
                 } else if (!itemstack.isEmpty() && !itemstack.isItemEqual(new ItemStack(DAItems.Hammer))) {
                     return tileForgeAnvil.addItem(playerIn, itemstack, hand);
                 } else if (itemstack.isEmpty() && tileForgeAnvil.hasItem() && playerIn.isSneaking()) {
                     InvHelper.withdrawFromInventory(tileForgeAnvil, playerIn, tileForgeAnvil.getInvSize());
+                    tileForgeAnvil.itemHandlerContentRemove = true;
+                    tileForgeAnvil.itemHandlerContentRemove2 = true;
                     return true;
                 }
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+        if (!worldIn.isRemote) {
+            ItemStack itemstack = playerIn.getHeldItem(playerIn.getActiveHand());
+
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te instanceof TileForgeAnvil) {
+                TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
+                if (itemstack.isEmpty() && tileForgeAnvil.hasHammer && playerIn.isSneaking()) {
+                    tileForgeAnvil.remove(playerIn, tileForgeAnvil.getHammerHandler());
+                    return;
+                } if (itemstack.isEmpty() && tileForgeAnvil.hasSharpener && playerIn.isSneaking()) {
+                    tileForgeAnvil.remove(playerIn, tileForgeAnvil.getSharpenerHandler());
+                }
+            }
+        }
     }
 
     @Override
@@ -97,6 +129,9 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
             for (int i = 0; i < tileForgeAnvil.getInvSize(); i++) {
                 if (!tileForgeAnvil.getItemHandler().getStackInSlot(i).isEmpty()) {
                     InvHelper.dropInventory(tileForgeAnvil, worldIn, state, pos, tileForgeAnvil.getInvSize());
+                }
+                if (!tileForgeAnvil.getHammerHandler().getStackInSlot(0).isEmpty()) {
+                    tileForgeAnvil.drop(state, tileForgeAnvil.getHammerHandler());
                 }
             }
         }
@@ -124,13 +159,22 @@ public class BlockForgeAnvil extends DABaseDirectionalBlock implements ITileEnti
         TileEntity te = world.getTileEntity(data.getPos());
         if (te instanceof TileForgeAnvil) {
             TileForgeAnvil tileForgeAnvil = (TileForgeAnvil) te;
-            if (TileForgeAnvil.isCrafting) {
+            if (tileForgeAnvil.isCrafting) {
                 probeInfo.horizontal()
                         .text(I18n.translateToLocal("top.dautils.forge_anvil.recipeAva"))
                         .item(tileForgeAnvil.getOutputItem());
                 probeInfo.horizontal()
                         .item(new ItemStack(DAItems.Hammer))
                         .progress(tileForgeAnvil.getRemainingHammer()-1 %100, tileForgeAnvil.getTotalHammer()-1, probeInfo.defaultProgressStyle().suffix(I18n.translateToLocal("top.dautils.forge_anvil.hammerLeft")));
+            }
+
+            if (tileForgeAnvil.isCraftingSharpen) {
+                probeInfo.horizontal()
+                        .text(I18n.translateToLocal("top.dautils.sharpening.recipeAva"))
+                        .item(tileForgeAnvil.getOutputSharpeningItem());
+                probeInfo.horizontal()
+                        .item(new ItemStack(DAItems.SharpeningTool))
+                        .progress(tileForgeAnvil.getRemainingSharpen()-1 %100, tileForgeAnvil.getTotalSharpen()-1, probeInfo.defaultProgressStyle().suffix(I18n.translateToLocal("top.dautils.forge_anvil.hammerLeft")));
             }
         }
     }

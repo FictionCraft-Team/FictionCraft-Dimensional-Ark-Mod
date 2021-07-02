@@ -10,8 +10,6 @@ import net.minecraftforge.fluids.FluidStack;
 import wintersteve25.dautils.common.crafting.ForgeAnvilRecipe;
 
 import javax.annotation.Nonnull;
-import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("deprecation")

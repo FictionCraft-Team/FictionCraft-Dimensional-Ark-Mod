@@ -20,21 +20,6 @@ import wintersteve25.dautils.common.blocks.machines.DABaseItemInventoryTile;
  * Download his mod Botania here: https://www.curseforge.com/minecraft/mc-mods/botania
  */
 public class InvHelper {
-    public static IItemHandler getInventory(World world, BlockPos pos, EnumFacing side) {
-        TileEntity te = world.getTileEntity(pos);
-
-        if(te == null)
-            return null;
-
-        IItemHandler ret = te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side) ?
-                te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side) : null;
-
-        if(ret == null && te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null))
-            ret = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-        return ret;
-    }
-
     public static void dropInventory(DABaseItemInventoryTile inv, World world, IBlockState state, BlockPos pos, int inventorySize) {
         if(inv != null) {
             for(int i = 0; i < inventorySize; i++) {
@@ -61,5 +46,4 @@ public class InvHelper {
             }
         }
     }
-
 }

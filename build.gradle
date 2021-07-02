@@ -12,7 +12,7 @@ buildscript {
 }
 apply plugin: "net.minecraftforge.gradle.forge"
 
-version = "1.0.0"
+version = "1.0.2"
 group = "wintersteve25.dautils" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "dautils"
 
@@ -59,6 +59,7 @@ dependencies {
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.636"
     deobfCompile "com.blamejared:MTLib:3.0.5.15"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 processResources {

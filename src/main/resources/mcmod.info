@@ -3,7 +3,7 @@
     "modid": "dautils",
     "name": "FictionCraft: Dimensional-ARK",
     "description": "A very mod for the modpack FictionCraft: Dimensional ARK",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
