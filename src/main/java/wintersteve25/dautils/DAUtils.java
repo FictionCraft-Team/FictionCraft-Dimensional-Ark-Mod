@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class DAUtils {
     public static final String MODID = "dautils";
     public static final String NAME = "FictionCraft: Dimensional-ARK";
-    public static final String VERSION = "1.0.2";
+    public static final String VERSION = "1.0.4";
 
     @SidedProxy(clientSide = "wintersteve25.dautils.client.proxy.ClientProxy", serverSide = "wintersteve25.dautils.common.proxy.ServerProxy")
     public static CommonProxy proxy;

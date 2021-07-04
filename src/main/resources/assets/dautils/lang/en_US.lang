@@ -29,7 +29,7 @@ jei.dautils.smeltery=Smeltery
 
 jei.dautils.sacrificer=Sacrificer
 jei.dautils.sacrificer.time=Ticks Till Consumed: %s
-jei.dautils.sacrificer.info=Produces: %smb of Blood
+jei.dautils.sacrificer.info=Produces: %sLP of Blood every tick
 
 #top
 top.dautils.forge_anvil.hammerLeft= Hammers Left

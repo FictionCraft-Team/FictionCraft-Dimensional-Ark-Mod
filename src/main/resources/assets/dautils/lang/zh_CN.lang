@@ -11,6 +11,7 @@ item.dautils.scorching_orb.name=灼热宝珠
 #blocks
 tile.dautils.forge_anvil.name=锻造砧
 tile.dautils.smeltery.name=熔炼炉
+tile.dautils.sacrificer.name=献祭器
 
 #itemGroups
 itemGroup.DAUtils=合虚为实：次元方舟
@@ -22,10 +23,19 @@ jei.dautils.smeltery.orbTier=宝珠等级:%s
 jei.dautils.smeltery.processTime=处理时间:%s
 jei.dautils.smeltery=熔炼炉
 
+jei.dautils.forge_anvil.sharpenAmount=锐化%s次
+jei.dautils.sharpening=锻造站和磨刀器
+
+jei.dautils.sacrificer=献祭器
+jei.dautils.sacrificer.time=%sTick后会被消耗
+jei.dautils.sacrificer.info=每Tick产生%sLP的血
+
 #top
 top.dautils.forge_anvil.hammerLeft= 锤
 top.dautils.forge_anvil.recipeAva=配方正确，正在合成:
 top.dautils.smeltery.remainingTicks=进度:
+top.dautils.sharpening.recipeAva=配方正确，正在合成:
+top.dautils.sharpening.sharpenLeft=进度:
 
-#tooltip
+#tooltips
 tooltip.dautils.heatorbs=%s级宝珠
